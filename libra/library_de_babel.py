@@ -1,3 +1,4 @@
+import numpy as np
 print("dit is kaasje import")
 
 # class Library_de_babel:
@@ -89,3 +90,9 @@ class Library_de_babel:
         for s in input_str:
             mid_string.append(str(self.lookup_alfabet[s]))
         return mid_string
+
+    def number_to_base29(self, number):
+        return np.base_repr(number, 29)
+    
+    def base29_to_number(self, base_29):
+        return int(base_29, 29)
