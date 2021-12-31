@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,33 +8,96 @@
     <title>Search in Library de Babel</title>
     <link rel="stylesheet" href="../static/styles/main.css">
 </head>
+
 <body>
     <center>
         <h1>La Bibliotheca de Babel</h1>
         <h2>The linear version</h5>
-        <div class="hor-menu">
-            <ul>
-                <li><a href="/">Home</a></li><span>|</span>
-                <li><a href="/search">Search</a></li><span>|</span>
-                <li><a href="/random">Random</a></li>
-            </ul>
-            <hr>
-        </div>   
+            <div class="hor-menu">
+                <ul>
+                    <li><a href="/">Home</a></li><span>|</span>
+                    <li><a href="/browse">Browse</a></li><span>|</span>
+                    <li><a href="/search">Search</a></li><span>|</span>
+                    <li><a href="/random">Random</a></li>
+                </ul>
+                <hr>
+            </div>
 
 
-        <form id="searcher" action="" method="POST">
             <p class="textsearch">Enter up to 3200 characters:<br><br>
-                <textarea style="text-align:left; width: 300px; height: 125px; font-size:14px; font-family: Courier" maxlength="3200" id="find" name="find"  autofocus=""></textarea>
+                <textarea style="text-align:left; width: 300px; height: 125px; font-size:14px; font-family: Courier"
+                    maxlength="3200" id="find" name="find" autofocus=""></textarea>
             </p>
-            <p class="textsearch" style="width:500px; position: relative; margin-right: auto; margin-left: auto; top:-10px;" id="advice">
+            <p class="textsearch"
+                style="width:500px; position: relative; margin-right: auto; margin-left: auto; top:-10px;" id="advice">
                 The library contains only lower-case letters, space, comma, and period.
             </p>
             <p id="image" style="text-align: center; position: relative;">
-                <input id="button" style="width: 100px; position: relative; top:-10px;" class="btn" type="submit" value="Search" name="btnSubmit">
+                <button id="button" style="width: 100px; position: relative; top:-10px;" class="btn"
+                    name="btnSubmit">Search</button>
                 <br>
             </p>
-        </form>
+
+            <p id="result_field" class="text" style="width: 80ch; border: 1px solid red;">
+            </p>
+
     </center>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script>
     
+    $("#button").click(function(){
+        checkInput();
+        sendToLibrarian(parseInt($("#find").val()));
+    });
+    
+    
+    $("#find").keyup(function(){
+        checkInput();
+        sendToLibrarian($(this).val());
+    });
+    
+    
+    function checkInput() {
+        var invalidChars = /[^a-z ,.]/gi
+        var text = $("#find").val();
+        text = text.toLowerCase();
+        //console.log("fixed?");
+        //console.log(text);
+        if(invalidChars.test(text)) {
+            text = text.replace(invalidChars,"")
+            $("#find").val(text);
+        }
+    }
+    
+    function sendToLibrarian(valua) {
+        var text = valua;
+        console.log(text)
+        data_to_send = JSON.stringify({'input_search': text.toLowerCase().toString()});//.serialize();
+    
+        $.ajax({
+            url: "/librarian/lookup",
+            contentType: "application/json",
+            type: "POST",
+            data: data_to_send,
+            success: function(response) {
+                //console.log(response.number);
+                //$("#find").text(response.number.toString());
+                //$("#find").val(response.number.toString())
+                rrp = response.report.replace(/(.{80})/g,"$&" + "\n");
+                $("#result_field").text(rrp);
+            },
+            error: function(xhr) {
+              //Do Something to handle error
+            }
+          });
+    }
+    
+    </script>
+
+
+
 </body>
+
 </html>

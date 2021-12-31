@@ -29,8 +29,8 @@ class Library_de_babel:
         argument -- description
         Return: return_description
     """
-    def search(self, string):
-        katshuis = self.string_to_base(string)
+    def search(self, search_string):
+        katshuis = self.string_to_base(search_string)
         to_see = self.arynth(katshuis)
         # print(f"{to_see}\n\n")
         return to_see
