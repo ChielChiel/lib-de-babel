@@ -22,6 +22,20 @@ class Library_de_babel:
         return
 
 
+
+    """Returns number where you can find a certain string
+    
+        Keyword arguments:
+        argument -- description
+        Return: return_description
+    """
+    def search(self, string):
+        katshuis = self.string_to_base(string)
+        to_see = self.arynth(katshuis)
+        # print(f"{to_see}\n\n")
+        return to_see
+
+
     """
     [summary]
         converts base-10 into a page

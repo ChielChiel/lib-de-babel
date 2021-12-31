@@ -4,14 +4,87 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kaasje dit</title>
+    <title>Search in Library de Babel</title>
+    <link rel="stylesheet" href="../static/styles/main.css">
 </head>
-<body style="padding: 2% 25% 5% 25%">
-    {# <img src="{{ url_for('static', filename='images/room.png') }}" alt="room with books" width="30%"> #}
-    <h1>{{ name }}</h1>
-    <div style="width: 80ch; border: 1px solid red; word-wrap:break-word">
-        <p>{{ output }}</p>
+<body>
+    <div class="main">
+        <center>
+            <h1>La Bibliotheca de Babel</h1>
+            <h2>The linear version</h5>
+            <div class="hor-menu">
+                <ul>
+                    <li><a href="/">Home</a></li><span>|</span>
+                    <li><a href="/search">Search</a></li><span>|</span>
+                    <li><a href="/random">Random</a></li>
+                </ul>
+                <hr>
+                <br><br>
+            </div> 
+                <span>Page <textarea id="page_number" type="text" value="{{ page_number }}" style="font-size:14px; text-align:center; font-family: Courier" >0</textarea>
+                    of 10<sup>4677</sup></span><br><br>
+                <button id="prev_page">&lt; Previouw page</button>
+                    <span>{{ page_number }}</span>
+                <button id="next_page">Next page &gt;</button>    
+            <br><br>
+            <p id="result_field" class="text" style="width: 80ch; border: 1px solid red;">
+                {{ output }}
+            </p>
+
+         </center>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$("#prev_page").click(function(){
+    sendToLibrarian(parseInt($("#page_number").val()), -1);
+
+});
+
+$("#next_page").click(function(){
+    sendToLibrarian(parseInt($("#page_number").val()), 1);
+
+
+});
+
+
+$("#page_number").keyup(function(){
+    checkInput();
+    sendToLibrarian($(this).val(), 0);
+});
+
+
+function checkInput() {
+    var invalidChars = /[^0-9]/gi
+    var text = $("#page_number").val();
     
+    if(invalidChars.test(text)) {
+        $("#page_number").val(text.replace(invalidChars,""));
+    }
+}
+
+function sendToLibrarian(valua, plus_minus) {
+    var text = valua;
+    console.log(text)
+    data_to_send = JSON.stringify({'input_number': text.toString(), 'action': plus_minus.toString()});//.serialize();
+
+    $.ajax({
+        url: "/librarian",
+        contentType: "application/json",
+        type: "POST",
+        data: data_to_send,
+        success: function(response) {
+            //console.log(response.number);
+            $("#page_number").text(response.number.toString());
+            $("#page_number").val(response.number.toString())
+            $("#result_field").text(response.report);
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+        }
+      });
+}
+
+</script>
 </body>
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search in Library de Babel</title>
+    <link rel="stylesheet" href="../static/styles/main.css">
+</head>
+<body>
+    <center>
+        <h1>La Bibliotheca de Babel</h1>
+        <h2>The linear version</h5>
+        <div class="hor-menu">
+            <ul>
+                <li><a href="/">Home</a></li><span>|</span>
+                <li><a href="/search">Search</a></li><span>|</span>
+                <li><a href="/random">Random</a></li>
+            </ul>
+            <hr>
+        </div>   
+
+
+        <form id="searcher" action="" method="POST">
+            <p class="textsearch">Enter up to 3200 characters:<br><br>
+                <textarea style="text-align:left; width: 300px; height: 125px; font-size:14px; font-family: Courier" maxlength="3200" id="find" name="find"  autofocus=""></textarea>
+            </p>
+            <p class="textsearch" style="width:500px; position: relative; margin-right: auto; margin-left: auto; top:-10px;" id="advice">
+                The library contains only lower-case letters, space, comma, and period.
+            </p>
+            <p id="image" style="text-align: center; position: relative;">
+                <input id="button" style="width: 100px; position: relative; top:-10px;" class="btn" type="submit" value="Search" name="btnSubmit">
+                <br>
+            </p>
+        </form>
+    </center>
+    
+</body>
+</html>
