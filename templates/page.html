@@ -37,14 +37,11 @@
 
 <script>
 $("#prev_page").click(function(){
-    sendToLibrarian(parseInt($("#page_number").val()), -1);
-
+    sendToLibrarian($("#page_number").val(), -1);
 });
 
 $("#next_page").click(function(){
-    sendToLibrarian(parseInt($("#page_number").val()), 1);
-
-
+    sendToLibrarian($("#page_number").val(), 1);
 });
 
 
@@ -63,10 +60,13 @@ function checkInput() {
     }
 }
 
-function sendToLibrarian(valua, plus_minus) {
-    var text = valua;
-    console.log(text)
-    data_to_send = JSON.stringify({'input_number': text.toString(), 'action': plus_minus.toString()});//.serialize();
+function sendToLibrarian(text, plus_minus) {
+    //var text = valua;
+    //console.log("normie");
+    //console.log(text)
+    //console.log("no-normie");
+    //console.log(text.toString())
+    data_to_send = JSON.stringify({'input_number': text.toString(), 'action': plus_minus.toString()});
 
     $.ajax({
         url: "/librarian",
@@ -76,11 +76,11 @@ function sendToLibrarian(valua, plus_minus) {
         success: function(response) {
             //console.log(response.number);
             $("#page_number").text(response.number.toString());
-            $("#page_number").val(response.number.toString())
+            $("#page_number").val(response.number.toString());
             $("#result_field").text(response.report);
         },
         error: function(xhr) {
-          //Do Something to handle error
+            console.log(xhr);
         }
       });
 }

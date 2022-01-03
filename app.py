@@ -58,7 +58,7 @@ def librarian():
         action = request.get_json().get('action')
         # print("length of input:", len(text))
         try:
-            number = int(text)
+            number = int(text,10)
         except:
             print("didnt go well:", text)
         

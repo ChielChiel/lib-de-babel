@@ -75,3 +75,9 @@ p.textsearch {
     font-size: 19px;
     color: #666666;
 }
+
+
+#board{cursor:pointer;overflow:hidden;font:40px/1 monospace;float:left;}
+#board span{display:block;float:left;background:#444;
+    color:#fff;margin-right:1px;}
+
