@@ -21,15 +21,13 @@
                 <hr>
                 <br><br>
             </div> 
-                <span>Page <textarea id="page_number" type="text" value="{{ page_number }}" style="font-size:14px; text-align:center; font-family: Courier" >0</textarea>
+                <span>Page <textarea id="page_number" type="text" value="{{ page_number }}" style="font-size:14px; text-align:center; font-family: Courier" >{{ page_number }}</textarea>
                     of 10<sup>4677</sup></span><br><br>
                 <button id="prev_page">&lt; Previouw page</button>
                     <span>{{ page_number }}</span>
                 <button id="next_page">Next page &gt;</button>    
             <br><br>
-            <p id="result_field" class="text" style="width: 80ch; border: 1px solid red;">
-                {{ output }}
-            </p>
+            <pre id="result_field" class="text" style="width: 80ch; border: 1px solid red;">{{output}}</pre>
 
          </center>
     </div>
@@ -61,11 +59,6 @@ function checkInput() {
 }
 
 function sendToLibrarian(text, plus_minus) {
-    //var text = valua;
-    //console.log("normie");
-    //console.log(text)
-    //console.log("no-normie");
-    //console.log(text.toString())
     data_to_send = JSON.stringify({'input_number': text.toString(), 'action': plus_minus.toString()});
 
     $.ajax({
@@ -74,7 +67,6 @@ function sendToLibrarian(text, plus_minus) {
         type: "POST",
         data: data_to_send,
         success: function(response) {
-            //console.log(response.number);
             $("#page_number").text(response.number.toString());
             $("#page_number").val(response.number.toString());
             $("#result_field").text(response.report);

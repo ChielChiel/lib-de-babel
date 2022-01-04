@@ -1,4 +1,5 @@
 import numpy as np
+import random
 print("dit is kaasje import")
 
 # class Library_de_babel:
@@ -110,3 +111,16 @@ class Library_de_babel:
     
     def base29_to_number(self, base_29):
         return int(base_29, 29)
+
+    def number_of_possible_occurences(self, text_length, sub_length):
+        # def nu_of_po_oc(text_length, sub_length):
+        return (text_length + 1) - sub_length
+
+    def number_of_containing_pages(self, page_length, sub_length):
+        #def nu_of_co_pa(page_length, sub_length):
+        one_page = self.alfabet_size ** (page_length - sub_length)
+        return one_page * self.number_of_possible_occurences(page_length, sub_length)
+    
+    def random_base(base_number = 29, length = 10):
+        alfabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        return "".join(random.choices(alfabet[:base_number], k=length))

@@ -10,9 +10,16 @@ def index():
     return render_template("home.html")
 
 @app.route('/browse')
-def browse():
-    report = bib.creat_page(0)
-    return render_template("page.html", page_number=0, output=report)
+@app.route('/browse/<page_nr>')
+def browse(page_nr = '0'):
+    # page_numb = 0
+    # if page_nr == None:
+    #     report = bib.creat_page(0)   
+    # else:
+    page_numb = bib.base29_to_number(base_29=page_nr)
+    report = bib.creat_page(numb=page_numb)
+    return render_template("page.html", page_number=page_numb, output=report)
+
 
 @app.route('/search')
 def search_page():
@@ -37,35 +44,24 @@ def librarian_lookup():
             print("didnt go well:", text)
         
         number = bib.search(search_string=text)
-        # print("requested", number)
-        #will be using base-29 for position of pages
-        # fetched_result = bib.base29_to_number(bases)
-        # report = bib.creat_page(numb=number)
-        return {"report": str(number)}
+
+        return {"report": str(bib.number_to_base29(number=number))}
     else:
         return {"result": "niet huts"}
 
 @app.route('/librarian', methods=['POST'])
 def librarian():
-    if request.method == 'POST':
-        # print("zeer zeker post")
-        # # print(request.headers)
-        # print(request.get_json())
-        # print(request.get_json().get("input_number"))
-        
-        # print("end shit")
+    if request.method == 'POST':    
         text = request.get_json().get('input_number')
         action = request.get_json().get('action')
-        # print("length of input:", len(text))
+
         try:
             number = int(text,10)
         except:
             print("didnt go well:", text)
         
         number += int(action)
-        # print("requested", number)
-        #will be using base-29 for position of pages
-        # fetched_result = bib.base29_to_number(bases)
+        
         report = bib.creat_page(numb=number)
         return {"number": str(number), "report": report}
     else:
