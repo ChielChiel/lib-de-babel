@@ -12,12 +12,8 @@ def index():
 @app.route('/browse')
 @app.route('/browse/<page_nr>')
 def browse(page_nr = '0'):
-    # page_numb = 0
-    # if page_nr == None:
-    #     report = bib.creat_page(0)   
-    # else:
     page_numb = bib.base29_to_number(base_29=page_nr)
-    report = bib.creat_page(numb=page_numb)
+    report = bib.create_page(page_number=page_numb)
     return render_template("page.html", page_number=page_numb, output=report)
 
 
@@ -31,7 +27,11 @@ def page():
 
 @app.route('/random')
 def random_page():
-    return render_template("page.html", page_number=212, output="d" * 3200)
+    rnd = bib.random_base(base_number=29,length=3200)
+    page_numb = bib.base29_to_number(base_29=rnd)
+    report = bib.create_page(page_number=page_numb)
+    return render_template("page.html", page_number=page_numb, output=report)
+
 
 
 @app.route('/librarian/lookup', methods=['POST'])
@@ -62,7 +62,7 @@ def librarian():
         
         number += int(action)
         
-        report = bib.creat_page(numb=number)
+        report = bib.create_page(page_number=number)
         return {"number": str(number), "report": report}
     else:
         return {"result": "niet huts"}
